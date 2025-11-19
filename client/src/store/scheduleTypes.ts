@@ -4,6 +4,13 @@ export interface IScheduleData {
    label: string
 }
 
+export interface IGroupData {
+   id: string;
+   name: string;
+   label: string;
+   studentsCount: number;
+}
+
 export interface IScheduleSlot {
    id: string;
 }
