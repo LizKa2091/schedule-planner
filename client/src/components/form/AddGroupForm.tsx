@@ -4,18 +4,13 @@ import { Button, Form, Input, InputNumber } from 'antd';
 import { addGroupSchema } from '../../schemas/schedule';
 import { useScheduleStore } from '../../store/scheduleStore';
 import { ZodError } from 'zod';
-
-interface IFormData {
-   name: string;
-   label: string;
-   studentsCount: number;
-}
+import { type GroupFormData } from '../../types/formDataTypes';
 
 const AddGroupForm: FC = () => {
    const { addEntry } = useScheduleStore();
    const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-   const onFinish = (formData: IFormData) => {
+   const onFinish = (formData: GroupFormData) => {
       setFormErrors({});
 
       const finalFormData = { ...formData, label: formData.label?.trim() || formData.name }
@@ -67,7 +62,7 @@ const AddGroupForm: FC = () => {
             help={formErrors.studentsCount}
             required
          >
-            <InputNumber />
+            <InputNumber min={1} max={35} />
          </Form.Item>
          <Button type='primary' htmlType='submit'>Добавить</Button>
       </Form>
