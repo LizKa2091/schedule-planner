@@ -25,6 +25,13 @@ export interface ISubjectData extends IDefaultData {
    groupIds?: string[];
 }
 
+export interface ITeacherData extends IDefaultData {
+   label: string;
+   email: string;
+   phone: string;
+   maxHours: number;
+}
+
 export interface IScheduleSlot {
    id: string;
 }
