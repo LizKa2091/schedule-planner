@@ -19,6 +19,12 @@ export interface IRoomData extends IDefaultData {
    type: RoomType;
 }
 
+export interface ISubjectData extends IDefaultData {
+   hoursPerWeek: number;
+   teacherIds: string[];
+   groupIds?: string[];
+}
+
 export interface IScheduleSlot {
    id: string;
 }

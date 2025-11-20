@@ -17,8 +17,7 @@ export const addTeacherSchema = z.object({
 export const addSubjectSchema = z.object({
    name: z.string('поле не может быть пустым').min(2, 'минимальная длина 2 символа').max(25, 'максимальная длина 25 символов'),
    hoursPerWeek: z.number('поле не может быть пустым').min(1, 'минимальная длина 1 символ').max(3, 'максимальная длина 3 символа'),
-   teacherIds: z.array(z.string()).min(1),
-   groupIds: z.array(z.string()).min(1)
+   teacherIds: z.array(z.string(), 'поле не может быть пустым').min(1)
 });
 
 export const addRoomSchema = z.object({
