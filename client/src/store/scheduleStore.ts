@@ -1,16 +1,16 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { IScheduleData, EntityType } from './scheduleTypes';
+import type { IScheduleData, EntityType, IGroupData, IRoomData, ISubjectData } from './scheduleTypes';
 
 const generateId = () => Date.now().toString() + Math.random().toString(36).substring(2);
 
 interface IScheduleState {
-   groups: IScheduleData[];
+   groups: IGroupData[];
    teachers: IScheduleData[];
-   rooms: IScheduleData[];
-   subjects: IScheduleData[];
+   rooms: IRoomData[];
+   subjects: ISubjectData[];
    scheduleSlots: IScheduleData[];
-   addEntry: (type: EntityType, value: Omit<IScheduleData, 'id'>) => void;
+   addEntry: (type: EntityType, value: Omit<IScheduleData | IGroupData | IRoomData | ISubjectData, 'id'>) => void;
    removeEntry: (type: EntityType, id: string) => void;
    editEntry: (type: EntityType, id: string, value: string | number) => void;
 }
@@ -21,7 +21,7 @@ export const useScheduleStore = create<IScheduleState>()(persist((set) => ({
    rooms: [],
    subjects: [],
    scheduleSlots: [],
-   addEntry: (type: EntityType, value: Omit<IScheduleData, 'id'>) => 
+   addEntry: (type: EntityType, value: Omit<IScheduleData | IGroupData | IRoomData | ISubjectData, 'id'>) => 
       set((state) => ({ [type]: [...state[type], { ...value, id: generateId() }] })),
    removeEntry: (type: EntityType, id: string) => 
       set((state) => ({ [type]: state[type].filter((entity) => entity.id !== id) })),
