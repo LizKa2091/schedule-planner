@@ -2,10 +2,10 @@ import { useState, type FC } from 'react';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
 import { ZodError } from 'zod';
 
-import { addRoomSchema } from '../../schemas/schedule';
-import { useScheduleStore } from '../../store/scheduleStore';
-import { roomTypeOptions } from '../../types/constants';
-import { type RoomFormData } from '../../types/formDataTypes';
+import { addRoomSchema } from '@/schemas/schedule';
+import { useScheduleStore } from '@/store/scheduleStore';
+import { roomTypeOptions } from '@/types/constants';
+import { type RoomFormData } from '@/types/formDataTypes';
 
 const RoomForm: FC = () => {
    const { addEntry } = useScheduleStore();

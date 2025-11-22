@@ -2,9 +2,9 @@ import { useState, type FC } from 'react';
 import { Button, Form, Input, InputNumber } from 'antd';
 import { ZodError } from 'zod';
 
-import { addTeacherSchema } from '../../schemas/schedule';
-import { useScheduleStore } from '../../store/scheduleStore';
-import { type TeacherFormData } from '../../types/formDataTypes';
+import { addTeacherSchema } from '@/schemas/schedule';
+import { useScheduleStore } from '@/store/scheduleStore';
+import { type TeacherFormData } from '@/types/formDataTypes';
 
 const TeacherForm: FC = () => {
    const { addEntry } = useScheduleStore();
@@ -37,7 +37,7 @@ const TeacherForm: FC = () => {
    return (
       <Form onFinish={onFinish} action='#'>
          <Form.Item 
-            label='Название предмета (системное)' 
+            label='Имя преподавателя (системное)' 
             name='name' 
             validateStatus={formErrors.name ? 'error' : ''}
             help={formErrors.name}
@@ -46,7 +46,7 @@ const TeacherForm: FC = () => {
             <Input />
          </Form.Item>
          <Form.Item 
-            label='Название предмета (отображаемое)' 
+            label='ФИО преподавателя (отображаемое)' 
             name='label' 
             validateStatus={formErrors.label ? 'error' : ''}
             help={formErrors.label}

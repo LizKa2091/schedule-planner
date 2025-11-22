@@ -2,9 +2,9 @@ import { useState, type FC } from 'react';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
 import { ZodError } from 'zod';
 
-import { addSubjectSchema } from '../../schemas/schedule';
-import { useScheduleStore } from '../../store/scheduleStore';
-import { type SubjectFormData } from '../../types/formDataTypes';
+import { addSubjectSchema } from '@/schemas/schedule';
+import { useScheduleStore } from '@/store/scheduleStore';
+import { type SubjectFormData } from '@/types/formDataTypes';
 
 const SubjectForm: FC = () => {
    const { addEntry } = useScheduleStore();
@@ -56,7 +56,7 @@ const SubjectForm: FC = () => {
             <InputNumber min={1} max={200} />
          </Form.Item>
          <Form.Item 
-            label='Преподаватели для аудитории' 
+            label='Преподаватели для предмета' 
             name='teacherIds' 
             validateStatus={formErrors.teacherIds ? 'error' : ''}
             help={formErrors.teacherIds}

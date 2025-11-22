@@ -1,12 +1,12 @@
 import { type FC, useState } from 'react';
 import { Button, Form, Input, InputNumber } from 'antd';
-
-import { addGroupSchema } from '../../schemas/schedule';
-import { useScheduleStore } from '../../store/scheduleStore';
 import { ZodError } from 'zod';
-import { type GroupFormData } from '../../types/formDataTypes';
 
-const AddGroupForm: FC = () => {
+import { addGroupSchema } from '@/schemas/schedule';
+import { useScheduleStore } from '@/store/scheduleStore';
+import { type GroupFormData } from '@/types/formDataTypes';
+
+const GroupForm: FC = () => {
    const { addEntry } = useScheduleStore();
    const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
@@ -69,4 +69,4 @@ const AddGroupForm: FC = () => {
    )
 }
 
-export default AddGroupForm;
+export default GroupForm;
