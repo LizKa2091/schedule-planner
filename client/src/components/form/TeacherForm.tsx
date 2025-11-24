@@ -16,7 +16,7 @@ const TeacherForm: FC = () => {
       try {
          const data = addTeacherSchema.parse(formData);
 
-         addEntry('subjects', data);
+         addEntry('teachers', data);
       }
       catch (err) {
          if (!(err instanceof ZodError)) return;
@@ -68,16 +68,15 @@ const TeacherForm: FC = () => {
             name='phone'
             validateStatus={formErrors.phone ? 'error' : ''}
             help={formErrors.phone}
-            initialValue={1}
             required
          >
             <Input type='tel' />
          </Form.Item>
          <Form.Item 
             label='Максимальное количество часов в неделю' 
-            name='maxHours'
-            validateStatus={formErrors.maxHours ? 'error' : ''}
-            help={formErrors.maxHours}
+            name='maxHoursPerWeek'
+            validateStatus={formErrors.maxHoursPerWeek ? 'error' : ''}
+            help={formErrors.maxHoursPerWeek}
             initialValue={1}
             required
          >

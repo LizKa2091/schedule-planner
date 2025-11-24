@@ -17,7 +17,7 @@ export const columnsMap: Record<EntityType, ColumnData[]> = {
       { title: 'Отображаемое имя', dataIndex: 'label' },
       { title: 'Почта', dataIndex: 'email' },
       { title: 'Телефон', dataIndex: 'phone' },
-      { title: 'Макс. часы', dataIndex: 'maxHours' }
+      { title: 'Макс. часы', dataIndex: 'maxHoursPerWeek' }
    ],
 
    rooms: [
@@ -28,7 +28,9 @@ export const columnsMap: Record<EntityType, ColumnData[]> = {
 
    subjects: [
       { title: 'Название', dataIndex: 'name' },
-      { title: 'Часов/нед', dataIndex: 'hoursPerWeek' }
+      { title: 'Часов/нед', dataIndex: 'hoursPerWeek' },
+      { title: 'Преподаватели', dataIndex: 'teacherIds' } 
+      // TODO: map through teachers to display labels instead of ids
    ],
 
    scheduleSlots: []
