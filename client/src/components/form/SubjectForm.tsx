@@ -7,7 +7,7 @@ import { useScheduleStore } from '@/store/scheduleStore';
 import { type SubjectFormData } from '@/types/formDataTypes';
 
 const SubjectForm: FC = () => {
-   const { addEntry } = useScheduleStore();
+   const { addEntry, teachers } = useScheduleStore();
    const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
    const onFinish = (formData: SubjectFormData) => {
@@ -62,7 +62,7 @@ const SubjectForm: FC = () => {
             help={formErrors.teacherIds}
             required
          >
-            <Select options={[]} />
+            <Select mode='multiple' fieldNames={{ value: 'id', label: 'label' }} options={teachers} />
          </Form.Item>
          <Button type='primary' htmlType='submit'>Добавить</Button>
       </Form>
