@@ -1,38 +1,18 @@
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
-import { ZodError } from 'zod';
 
 import { addSubjectSchema } from '@/schemas/schedule';
-import { useScheduleStore } from '@/store/scheduleStore';
 import { type SubjectFormData } from '@/types/formDataTypes';
+import { useZodForm } from '@/hooks/useZodForm';
+import { useScheduleStore } from '@/store/scheduleStore';
 
 const SubjectForm: FC = () => {
-   const { addEntry, teachers } = useScheduleStore();
-   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+   const { teachers } = useScheduleStore();
 
-   const onFinish = (formData: SubjectFormData) => {
-      setFormErrors({});
-
-      try {
-         const data = addSubjectSchema.parse(formData);
-
-         addEntry('subjects', data);
-      }
-      catch (err) {
-         if (!(err instanceof ZodError)) return;
-
-         const errors: Record<string, string> = {};
-
-         err.issues.forEach((issue) => {
-            const field = issue.path[0] as string;
-            if (!errors[field]) {
-               errors[field] = issue.message;
-            }
-         });
-
-         setFormErrors(errors);
-      }
-   }
+   const { onFinish, formErrors } = useZodForm<SubjectFormData>({
+      schemaAction: addSubjectSchema,
+      entityName: 'subjects'
+   });
 
    return (
       <Form onFinish={onFinish} action='#'>

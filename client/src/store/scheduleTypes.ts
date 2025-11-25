@@ -23,7 +23,7 @@ export interface ITeacherData extends IDefaultData {
    label: string;
    email: string;
    phone: string;
-   maxHours: number;
+   maxHoursPerWeek: number;
 }
 
 export interface IScheduleSlot {

@@ -1,39 +1,16 @@
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
-import { ZodError } from 'zod';
 
+import { useZodForm } from '@/hooks/useZodForm';
 import { addRoomSchema } from '@/schemas/schedule';
-import { useScheduleStore } from '@/store/scheduleStore';
 import { roomTypeOptions } from '@/types/constants';
 import { type RoomFormData } from '@/types/formDataTypes';
 
 const RoomForm: FC = () => {
-   const { addEntry } = useScheduleStore();
-   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-
-   const onFinish = (formData: RoomFormData) => {
-      setFormErrors({});
-
-      try {
-         const data = addRoomSchema.parse(formData);
-
-         addEntry('rooms', data);
-      }
-      catch (err) {
-         if (!(err instanceof ZodError)) return;
-
-         const errors: Record<string, string> = {};
-
-         err.issues.forEach((issue) => {
-            const field = issue.path[0] as string;
-            if (!errors[field]) {
-               errors[field] = issue.message;
-            }
-         });
-
-         setFormErrors(errors);
-      }
-   }
+   const { onFinish, formErrors } = useZodForm<RoomFormData>({
+      schemaAction: addRoomSchema,
+      entityName: 'rooms'
+   })
 
    return (
       <Form onFinish={onFinish} action='#'>

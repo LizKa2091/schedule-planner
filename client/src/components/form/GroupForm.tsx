@@ -1,40 +1,19 @@
-import { type FC, useState } from 'react';
+import { type FC } from 'react';
 import { Button, Form, Input, InputNumber } from 'antd';
-import { ZodError } from 'zod';
 
 import { addGroupSchema } from '@/schemas/schedule';
-import { useScheduleStore } from '@/store/scheduleStore';
+import { useZodForm } from '@/hooks/useZodForm';
 import { type GroupFormData } from '@/types/formDataTypes';
 
 const GroupForm: FC = () => {
-   const { addEntry } = useScheduleStore();
-   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-
-   const onFinish = (formData: GroupFormData) => {
-      setFormErrors({});
-
-      const finalFormData = { ...formData, label: formData.label?.trim() || formData.name }
-
-      try {
-         const data = addGroupSchema.parse(finalFormData);
-
-         addEntry('groups', data)
-      }
-      catch (err) {
-         if (!(err instanceof ZodError)) return;
-
-         const errors: Record<string, string> = {};
-
-         err.issues.forEach((issue) => {
-            const field = issue.path[0] as string;
-            if (!errors[field]) {
-               errors[field] = issue.message;
-            }
-         });
-
-         setFormErrors(errors);
-      }
-   }
+   const { onFinish, formErrors } = useZodForm<GroupFormData>({ 
+      schemaAction: addGroupSchema,
+      entityName: 'groups',
+      preconvertate: (formData) => ({
+         ...formData,
+         label: formData.label?.trim() || formData.name
+      })
+   });
 
    return (
       <Form onFinish={onFinish} action='#'>

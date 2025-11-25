@@ -23,7 +23,7 @@ export const addSubjectSchema = z.object({
 export const addRoomSchema = z.object({
    name: z.string('поле не может быть пустым').min(2, 'минимальная длина 2 символа').max(25, 'максимальная длина 25 символов'),
    capacity: z.number('поле не может быть пустым').min(1, 'минимальное количество 1').max(500, 'максимальное количество 500'),
-   type: z.string('поле не может быть пустым')
+   type: z.enum(['lecture', 'practice', 'universal'])
 });
 
 export const addScheduleBlockSchema = z.object({
