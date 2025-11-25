@@ -28,7 +28,7 @@ export interface ITeacherData extends IDefaultData {
 
 export interface IScheduleSlot {
    id: string;
-   groupdId: string;
+   groupId: string;
    subjectId: string;
    teacherId: string;
    roomId: string;

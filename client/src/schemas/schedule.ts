@@ -32,6 +32,6 @@ export const addScheduleBlockSchema = z.object({
    teacherId: z.string('поле не может быть пустым').min(1),
    roomId: z.string('поле не может быть пустым').min(1),
    day: z.string('поле не может быть пустым').min(1),
-   startTime: z.iso.datetime('поле не может быть пустым'),
-   dueToTime: z.iso.datetime('поле не может быть пустым')
+   startTime: z.string('поле не может быть пустым'),
+   dueToTime: z.string('поле не может быть пустым')
 })
