@@ -7,6 +7,7 @@ import TeacherForm from '@/components/form/TeacherForm';
 import GroupForm from '@/components/form/GroupForm';
 import SubjectForm from '@/components/form/SubjectForm';
 import RoomForm from '@/components/form/RoomForm';
+import ScheduleForm from '@/components/form/ScheduleForm';
 import { useScheduleStore } from '@/store/scheduleStore';
 import { columnsMap } from '@/components/entity-table/columnsMap';
 
@@ -29,12 +30,14 @@ const ManagePage: FC = () => {
 
          case 'rooms-view': return <EntityTable data={rooms} cols={columnsMap.rooms} />;
          case 'rooms-form': return <RoomForm />;
+
+         case 'schedule-block': return <ScheduleForm />
       }
    }
 
    return (
-      <>
-         <Flex justify='space-between'>
+      <Flex justify='center' align='center' gap='large' vertical>
+         <Flex justify='space-between' gap='middle'>
             <Card title='Преподаватели'>
                <Flex gap='middle'>
                   <Button onClick={() => setCurrModal('teachers-view')}>Посмотреть</Button>
@@ -60,12 +63,13 @@ const ManagePage: FC = () => {
                </Flex>
             </Card>
          </Flex>
+         <Button type='primary' onClick={() => setCurrModal('schedule-block')}>Создать элемент расписания</Button>
          {currModal && 
             <Modal onClose={() => setCurrModal(null)}>
                {renderModalContent(currModal)}
             </Modal>
          }
-      </>
+      </Flex>
    )
 }
 
