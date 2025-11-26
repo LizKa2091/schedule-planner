@@ -3,7 +3,7 @@ import { Button, Card, Flex, Select } from 'antd';
 
 import Modal from '@/components/modal/Modal';
 import GroupInfoPanel from '@/components/group-info-panel/GroupInfoPanel';
-import { Option } from 'antd/es/mentions';
+import EntityCard from '@/components/manage/EntityCard';
 import { useScheduleStore } from '@/store/scheduleStore';
 import { useMapModalContent } from '@/hooks/useMapModalContent';
 import type { ModalType } from '@/types/modalTypes';
@@ -18,30 +18,26 @@ const ManagePage: FC = () => {
    return (
       <Flex justify='center' align='center' gap='large' vertical>
          <Flex justify='space-between' gap='middle'>
-            <Card title='Преподаватели'>
-               <Flex gap='middle'>
-                  <Button onClick={() => setCurrModal('teachers-view')}>Посмотреть</Button>
-                  <Button onClick={() => setCurrModal('teachers-form')}>Добавить</Button>
-               </Flex>
-            </Card>
-            <Card title='Группы'>
-               <Flex gap='middle'>
-                  <Button onClick={() => setCurrModal('groups-view')}>Посмотреть</Button>
-                  <Button onClick={() => setCurrModal('groups-form')}>Добавить</Button>
-               </Flex>
-            </Card>
-            <Card title='Предметы'>
-               <Flex gap='middle'>
-                  <Button onClick={() => setCurrModal('subjects-view')}>Посмотреть</Button>
-                  <Button onClick={() => setCurrModal('subjects-form')}>Добавить</Button>
-               </Flex>
-            </Card>
-            <Card title='Аудитории'>
-               <Flex gap='middle'>
-                  <Button onClick={() => setCurrModal('rooms-view')}>Посмотреть</Button>
-                  <Button onClick={() => setCurrModal('rooms-form')}>Добавить</Button>
-               </Flex>
-            </Card>
+            <EntityCard
+               title='Преподаватели'
+               handleView={() => setCurrModal('teachers-view')}
+               handleAdd={() => setCurrModal('teachers-form')}
+            />
+            <EntityCard
+               title='Группы'
+               handleView={() => setCurrModal('groups-view')}
+               handleAdd={() => setCurrModal('groups-form')}
+            />
+            <EntityCard
+               title='Предметы'
+               handleView={() => setCurrModal('subjects-view')}
+               handleAdd={() => setCurrModal('subjects-form')}
+            />
+            <EntityCard
+               title='Аудитории'
+               handleView={() => setCurrModal('rooms-view')}
+               handleAdd={() => setCurrModal('rooms-form')}
+            />
          </Flex>
          <Flex>
             <Card title='Информация по группе'>
@@ -52,7 +48,7 @@ const ManagePage: FC = () => {
                      onChange={(val) => setCurrGroupId(val)}
                   >
                      {groups.map((group) => (
-                        <Option key={group.id} value={group.id}>{group.label || group.name}</Option>
+                        <Select.Option key={group.id} value={group.id}>{group.label || group.name}</Select.Option>
                      ))}
                   </Select>
                   <GroupInfoPanel groupId={currGroupId} />
