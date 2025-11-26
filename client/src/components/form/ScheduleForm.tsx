@@ -4,19 +4,24 @@ import { Button, Form, Select, TimePicker } from 'antd';
 import { addScheduleBlockSchema } from '@/schemas/schedule';
 import { useZodForm } from '@/hooks/useZodForm';
 import { useScheduleStore } from '@/store/scheduleStore';
-import type { ScheduleFormData } from '@/types/formDataTypes';
+import type { ScheduleFormData, ScheduleFormValues } from '@/types/formDataTypes';
 import { weekDays } from '@/types/constants';
 
 const ScheduleForm: FC = () => {
    const { groups, subjects, teachers, rooms } = useScheduleStore();
-   const { onFinish, formErrors } = useZodForm<ScheduleFormData>({
+   const { onFinish, formErrors } = useZodForm<ScheduleFormValues>({
       schemaAction: addScheduleBlockSchema,
       entityName: 'scheduleSlots',
       preconvertate: (formData) => ({
          ...formData,
-         startTime: formData.startTime?.format("HH:mm:ss"),
-         dueToTime: formData.dueToTime?.format("HH:mm:ss")
-      })
+         startTime: typeof formData.startTime === 'string'
+            ? formData.startTime
+            : formData.startTime?.format('HH:mm:ss') ?? "",
+
+         dueToTime: typeof formData.dueToTime === 'string'
+            ? formData.dueToTime
+            : formData.dueToTime?.format('HH:mm:ss') ?? "",
+      }) as ScheduleFormData
    });
 
    return (
@@ -83,7 +88,6 @@ const ScheduleForm: FC = () => {
             name='startTime'
             validateStatus={formErrors.startTime ? 'error' : ''}
             help={formErrors.startTime}
-            getValueFromEvent={(value) => value?.format('HH:mm:ss')}
             required
          >
             <TimePicker format='HH:mm:ss' />
