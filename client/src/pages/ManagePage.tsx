@@ -1,5 +1,5 @@
 import { useState, type FC } from 'react';
-import { Button, Card, Flex } from 'antd';
+import { Button, Card, Flex, Select } from 'antd';
 
 import EntityTable from '@/components/entity-table/EntityTable';
 import Modal from '@/components/modal/Modal';
@@ -12,10 +12,13 @@ import { useScheduleStore } from '@/store/scheduleStore';
 import { columnsMap } from '@/components/entity-table/columnsMap';
 
 import { type ModalType } from '@/types/modalTypes';
+import { Option } from 'antd/es/mentions';
+import GroupInfoPanel from '@/components/group-info-panel/GroupInfoPanel';
 
 const ManagePage: FC = () => {
    const { groups, teachers, rooms, subjects } = useScheduleStore();
    const [currModal, setCurrModal] = useState<ModalType | null>(null);
+   const [currGroupId, setCurrGroupId] = useState<string | null>(null);
 
    const renderModalContent = (type: ModalType) => {
       switch (type) {
@@ -60,6 +63,22 @@ const ManagePage: FC = () => {
                <Flex gap='middle'>
                   <Button onClick={() => setCurrModal('rooms-view')}>Посмотреть</Button>
                   <Button onClick={() => setCurrModal('rooms-form')}>Добавить</Button>
+               </Flex>
+            </Card>
+         </Flex>
+         <Flex>
+            <Card title='Информация по группе'>
+               <Flex align='center' gap='large' vertical>
+                  <Select
+                     placeholder='Укажите группу'
+                     value={currGroupId}
+                     onChange={(val) => setCurrGroupId(val)}
+                  >
+                     {groups.map((group) => (
+                        <Option key={group.id} value={group.id}>{group.label || group.name}</Option>
+                     ))}
+                  </Select>
+                  <GroupInfoPanel groupId={currGroupId} />
                </Flex>
             </Card>
          </Flex>
