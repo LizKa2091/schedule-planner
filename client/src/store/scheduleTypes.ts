@@ -3,12 +3,6 @@ interface IDefaultData {
    name: string;
 }
 
-export interface IScheduleData {
-   id: string,
-   value: number | string,
-   label: string
-}
-
 export interface IGroupData extends IDefaultData {
    label: string;
    studentsCount: number;
@@ -29,11 +23,18 @@ export interface ITeacherData extends IDefaultData {
    label: string;
    email: string;
    phone: string;
-   maxHours: number;
+   maxHoursPerWeek: number;
 }
 
 export interface IScheduleSlot {
    id: string;
+   groupId: string;
+   subjectId: string;
+   teacherId: string;
+   roomId: string;
+   day: string;
+   startTime: string;
+   dueToTime: string;
 }
 
 export type EntityType = 'groups' | 'teachers' | 'rooms' | 'subjects' | 'scheduleSlots';
