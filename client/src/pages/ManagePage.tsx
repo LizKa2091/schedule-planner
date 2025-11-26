@@ -1,15 +1,13 @@
 import { useState, type FC } from 'react';
-import { Button, Card, Flex, Select } from 'antd';
+import { Button, Flex } from 'antd';
 
 import Modal from '@/components/modal/Modal';
-import GroupInfoPanel from '@/components/group-info-panel/GroupInfoPanel';
 import EntityCard from '@/components/manage/EntityCard';
-import { useScheduleStore } from '@/store/scheduleStore';
+import GroupSelector from '@/components/manage/GroupSelector';
 import { useMapModalContent } from '@/hooks/useMapModalContent';
 import type { ModalType } from '@/types/modalTypes';
 
 const ManagePage: FC = () => {
-   const { groups } = useScheduleStore();
    const [currModal, setCurrModal] = useState<ModalType | null>(null);
    const [currGroupId, setCurrGroupId] = useState<string | null>(null);
 
@@ -39,22 +37,7 @@ const ManagePage: FC = () => {
                handleAdd={() => setCurrModal('rooms-form')}
             />
          </Flex>
-         <Flex>
-            <Card title='Информация по группе'>
-               <Flex align='center' gap='large' vertical>
-                  <Select
-                     placeholder='Укажите группу'
-                     value={currGroupId}
-                     onChange={(val) => setCurrGroupId(val)}
-                  >
-                     {groups.map((group) => (
-                        <Select.Option key={group.id} value={group.id}>{group.label || group.name}</Select.Option>
-                     ))}
-                  </Select>
-                  <GroupInfoPanel groupId={currGroupId} />
-               </Flex>
-            </Card>
-         </Flex>
+         <GroupSelector groupId={currGroupId} setGroupId={setCurrGroupId} />
          <Button type='primary' onClick={() => setCurrModal('schedule-block')}>Создать элемент расписания</Button>
          {currModal && 
             <Modal onClose={() => setCurrModal(null)}>
