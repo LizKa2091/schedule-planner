@@ -1,0 +1,12 @@
+.message {
+   font-weight: 600;
+   margin-top: 15px;
+   text-align: center;
+
+   &.errorMessage {
+      color: #ff0000;
+   }
+   &.successMessage {
+      color: #009400;
+   }
+}
