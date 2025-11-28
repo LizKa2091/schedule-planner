@@ -11,6 +11,7 @@ interface IUseZodFormParams<Shape> {
 
 interface UseZodFormResult<Shape> {
    formErrors: Record<string, string>;
+   isSuccess: boolean;
    onFinish: (formData: Shape) => void;
 }
 
@@ -18,10 +19,13 @@ export const useZodForm = <Shape extends object>({
    schemaAction, entityName, preconvertate 
 }: IUseZodFormParams<Shape>): UseZodFormResult<Shape> => {
    const { addEntry } = useScheduleStore();
+
    const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
    const onFinish = (formData: Shape) => {
       setFormErrors({});
+      setIsSuccess(false);
 
       try {
          const preconverted = preconvertate ? preconvertate(formData) : formData;
@@ -29,6 +33,7 @@ export const useZodForm = <Shape extends object>({
          const data = schemaAction.parse(preconverted);
 
          addEntry(entityName, data);
+         setIsSuccess(true);
       }
       catch (err) {
          if (!(err instanceof ZodError)) return;
@@ -46,5 +51,5 @@ export const useZodForm = <Shape extends object>({
       }
    }
 
-   return { formErrors, onFinish };
+   return { formErrors, isSuccess, onFinish };
 } 
