@@ -11,6 +11,7 @@ interface UseScheduleFormParams {
 
 interface UseScheduleFormResult {
    formErrors: Record<string, string>;
+   isSuccess: boolean;
    onFinish: (data: ScheduleFormValues) => void;
 }
 
@@ -19,9 +20,11 @@ export const useScheduleForm = ({ schemaAction, preconvertate }: UseScheduleForm
    const { checkConflicts } = useScheduleConflicts();
 
    const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
    const onFinish = (rawData: ScheduleFormValues) => {
       setFormErrors({});
+      setIsSuccess(false);
 
       try {
          const prepared = preconvertate ? preconvertate(rawData) : rawData;
@@ -31,12 +34,13 @@ export const useScheduleForm = ({ schemaAction, preconvertate }: UseScheduleForm
          const conflict = checkConflicts(parsed as ScheduleFormData);
 
          if (conflict.hasConflict) {
-            setFormErrors({ _form: String(conflict)});
-            
+            setFormErrors({ _form: conflict.message });
+
             return;
          }
 
          addEntry('scheduleSlots', parsed);
+         setIsSuccess(true);
       }
 
       catch (err) {
@@ -56,5 +60,5 @@ export const useScheduleForm = ({ schemaAction, preconvertate }: UseScheduleForm
       }
    };
 
-   return { formErrors, onFinish };
+   return { formErrors, isSuccess, onFinish };
 };
