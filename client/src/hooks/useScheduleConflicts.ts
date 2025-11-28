@@ -1,60 +1,64 @@
-import { useMemo } from "react";
-import dayjs from "dayjs";
 import { useScheduleStore } from "@/store/scheduleStore";
-import type { IScheduleSlot } from "@/store/scheduleTypes";
+import type { ScheduleFormData } from "@/types/formDataTypes";
 
-interface ICheckConflictResult {
+interface ConflictResult {
    hasConflict: boolean;
-   conflictsType?: 'group' | 'teacher' | 'room';
-   slot?: IScheduleSlot;
+   message: string;
 }
 
-type EntitiesIds = {
-   groupId: string;
-   teacherId: string;
-   roomId: string;
-}
+export const useScheduleConflicts = () => {
+   const { scheduleSlots, groups, teachers, rooms } = useScheduleStore();
 
-export const useScheduleConflicts = (
-   day: string, 
-   startTime: string, 
-   dueToTime: string,
-   ids: EntitiesIds
-) => {
-   const { scheduleSlots } = useScheduleStore();
+   const checkConflicts = (newSlot: ScheduleFormData): ConflictResult => {
+      const sameDaySlots = scheduleSlots.filter((slot) => slot.day === newSlot.day);
 
-   const newSlotStart = dayjs(startTime, 'HH:mm');
-   const newSlotEnd = dayjs(dueToTime, 'HH:mm');
+      const isOverlap = (
+         startA: string,
+         endA: string,
+         startB: string,
+         endB: string
+      ) => startA < endB && startB < endA;
 
-   const currDaySlots = useMemo(() => {
-      return scheduleSlots.filter((slot) => slot.day === day)
-   }, [scheduleSlots, day]);
+      for (const slot of sameDaySlots) {
+         const overlap = isOverlap(
+            newSlot.startTime,
+            newSlot.dueToTime,
+            slot.startTime,
+            slot.dueToTime
+         );
 
-   const checkConflict = (): ICheckConflictResult => {
-      for (const slot of currDaySlots) {
-         const slotStart = dayjs(slot.startTime, 'HH:mm');
-         const slotEnd = dayjs(slot.dueToTime, 'HH:mm');
+         if (!overlap) continue;
 
-         const isIntersect = newSlotStart.isBefore(slotEnd) && newSlotEnd.isAfter(slotStart);
+         if (slot.groupId === newSlot.groupId) {
+            const conflictGroup = groups.find((group) => group.id === newSlot.groupId)?.label ?? 'выбранной';
 
-         if (!isIntersect) continue;
-
-         if (slot.groupId === ids.groupId) {
-            return { hasConflict: true, conflictsType: 'group', slot };
+            return {
+               hasConflict: true,
+               message: `Ошибка: у ${conflictGroup} группы уже есть занятие в это время`,
+            };
          }
 
-         if (slot.teacherId === ids.teacherId) {
-            return { hasConflict: true, conflictsType: 'teacher', slot };
+         if (slot.teacherId === newSlot.teacherId) {
+            const conflictTeacher = teachers.find((teacher) => teacher.id === newSlot.teacherId)?.label ?? 'выбранный';
+
+            return {
+               hasConflict: true,
+               message: `Ошибка: ${conflictTeacher} преподаватель занят в это время`,
+            };
          }
 
-         if (slot.roomId === ids.roomId) {
-            return { hasConflict: true, conflictsType: 'room', slot };
+         if (slot.roomId === newSlot.roomId) {
+            const conflictRoom = rooms.find((room) => room.id === newSlot.roomId)?.name ?? 'выбранная';
+
+            return {
+               hasConflict: true,
+               message: `${conflictRoom} аудитория уже занята`,
+            };
          }
+
       }
+      return { hasConflict: false, message: '' };
+   };
 
-      return { hasConflict: false };
-   }
-
-
-   return { checkConflict };
-}
+   return { checkConflicts };
+};
