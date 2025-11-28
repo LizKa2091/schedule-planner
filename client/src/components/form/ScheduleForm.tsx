@@ -2,25 +2,25 @@ import { type FC } from 'react';
 import { Button, Form, Select, TimePicker } from 'antd';
 
 import { addScheduleBlockSchema } from '@/schemas/schedule';
-import { useZodForm } from '@/hooks/useZodForm';
 import { useScheduleStore } from '@/store/scheduleStore';
-import type { ScheduleFormData, ScheduleFormValues } from '@/types/formDataTypes';
+import { useScheduleForm } from '@/hooks/useScheduleForm';
+import type { ScheduleFormData } from '@/types/formDataTypes';
 import { weekDays } from '@/types/constants';
 
 const ScheduleForm: FC = () => {
    const { groups, subjects, teachers, rooms } = useScheduleStore();
-   const { onFinish, formErrors } = useZodForm<ScheduleFormValues>({
+
+   const { onFinish, formErrors } = useScheduleForm({
       schemaAction: addScheduleBlockSchema,
-      entityName: 'scheduleSlots',
       preconvertate: (formData) => ({
          ...formData,
          startTime: typeof formData.startTime === 'string'
             ? formData.startTime
-            : formData.startTime?.format('HH:mm:ss') ?? "",
+            : formData.startTime?.format('HH:mm:ss') ?? '',
 
          dueToTime: typeof formData.dueToTime === 'string'
             ? formData.dueToTime
-            : formData.dueToTime?.format('HH:mm:ss') ?? "",
+            : formData.dueToTime?.format('HH:mm:ss') ?? '',
       }) as ScheduleFormData
    });
 
