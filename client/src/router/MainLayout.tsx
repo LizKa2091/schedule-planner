@@ -1,5 +1,10 @@
 import { type FC, type ReactNode } from 'react';
-import { Flex } from 'antd';
+import { Layout } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+
+import HeaderBar from '@/components/header-bar/HeaderBar';
+
+import styles from './MainLayout.module.scss';
 
 interface IMainLayoutProps {
    children: ReactNode;
@@ -7,9 +12,12 @@ interface IMainLayoutProps {
 
 const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
    return (
-      <Flex justify='center' align='center' gap='middle'>
-         {children}
-      </Flex>
+      <Layout>
+         <HeaderBar />
+         <Content className={styles.content}>
+            {children}
+         </Content>
+      </Layout>
    )
 }
 
