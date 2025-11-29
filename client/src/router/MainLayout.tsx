@@ -1,15 +1,20 @@
-import { type FC, type ReactNode } from 'react';
-import { Flex } from 'antd';
+import { type FC } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Layout } from 'antd';
+import { Content } from 'antd/es/layout/layout';
 
-interface IMainLayoutProps {
-   children: ReactNode;
-}
+import HeaderBar from '@/components/header-bar/HeaderBar';
 
-const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
+import styles from './MainLayout.module.scss';
+
+const MainLayout: FC = () => {
    return (
-      <Flex justify='center' align='center' gap='middle'>
-         {children}
-      </Flex>
+      <Layout>
+         <HeaderBar />
+         <Content className={styles.content}>
+            <Outlet />
+         </Content>
+      </Layout>
    )
 }
 
