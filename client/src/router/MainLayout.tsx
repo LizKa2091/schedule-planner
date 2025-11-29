@@ -1,4 +1,5 @@
-import { type FC, type ReactNode } from 'react';
+import { type FC } from 'react';
+import { Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 
@@ -6,16 +7,12 @@ import HeaderBar from '@/components/header-bar/HeaderBar';
 
 import styles from './MainLayout.module.scss';
 
-interface IMainLayoutProps {
-   children: ReactNode;
-}
-
-const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
+const MainLayout: FC = () => {
    return (
       <Layout>
          <HeaderBar />
          <Content className={styles.content}>
-            {children}
+            <Outlet />
          </Content>
       </Layout>
    )
