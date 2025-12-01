@@ -1,11 +1,12 @@
 import { type FC } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import MainLayout from './MainLayout';
 import HomePage from '@/pages/HomePage';
 import ManagePage from '@/pages/ManagePage';
+import SchedulePage from '@/pages/SchedulePage';
 
 import '@/styles/global.scss';
-import MainLayout from './MainLayout';
 
 const App: FC = () => {
    return (
@@ -14,6 +15,7 @@ const App: FC = () => {
             <Route element={<MainLayout />}>
                <Route path='/' element={<HomePage />} />
                <Route path='/manage' element={<ManagePage />} />
+               <Route path='/schedule' element={<SchedulePage />} />
             </Route>
          </Routes>
       </BrowserRouter>

@@ -7,7 +7,7 @@ export const menuItems = [
    {
       key: 2,
       label: 'Расписание',
-      path: '/'
+      path: '/schedule'
    },
    {
       key: 3,
