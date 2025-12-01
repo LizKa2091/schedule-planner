@@ -1,8 +1,10 @@
-import { type FC } from 'react'
+import { useState, type FC } from 'react'
 import { Button, Flex, Select } from 'antd';
 import { CaretLeftFilled, CaretRightFilled } from '@ant-design/icons';
 
+import Modal from '../modal/Modal';
 import { useScheduleStore } from '@/store/scheduleStore';
+import { useMapModalContent } from '@/hooks/useMapModalContent';
 import type { IFilterData } from '@/types/filters';
 import type { Dayjs } from 'dayjs';
 
@@ -18,7 +20,10 @@ interface ISchedulePanelProps {
 const SchedulePanel: FC<ISchedulePanelProps> = ({ 
    filters, setFilters, currWeek, onNextWeek, onPrevWeek, onTodayWeek
 }) => {
+   const [currModal, setCurrModal] = useState<'schedule-block' | null>(null);
+
    const { groups, subjects, rooms } = useScheduleStore();
+   const modalContent = useMapModalContent();
 
    return (
       <Flex justify='center' align='center' vertical gap='large'>
@@ -52,8 +57,13 @@ const SchedulePanel: FC<ISchedulePanelProps> = ({
                onChange={(value) => setFilters({ ...filters, room: value })}
                options={rooms.map((room) => ({ label: room.name, value: room.id }))}
             />
-            <Button type='primary'>Добавить занятие</Button>
+            <Button type='primary' onClick={() => setCurrModal('schedule-block')}>Добавить занятие</Button>
          </Flex>
+         {currModal && 
+            <Modal onClose={() => setCurrModal(null)}>
+               {modalContent[currModal]}
+            </Modal>
+         }
       </Flex>
    )
 }
