@@ -1,0 +1,1 @@
+export const hours = Array.from({ length: 24 }).map((_, i) => i);
