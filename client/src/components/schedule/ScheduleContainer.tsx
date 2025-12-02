@@ -1,7 +1,9 @@
 import { useState, type FC } from 'react';
+import { Flex } from 'antd';
 import dayjs from 'dayjs';
 
 import SchedulePanel from '@/components/schedule/SchedulePanel';
+import WeeklyGrid from './WeeklyGrid';
 import type { IFilterData } from '@/types/filters';
 
 const ScheduleContainer: FC = () => {
@@ -15,7 +17,7 @@ const ScheduleContainer: FC = () => {
    const handleTodayWeek = () => setCurrWeek(dayjs().startOf('week'));
 
    return (
-      <>
+      <Flex vertical gap='large'>
          <SchedulePanel
             filters={filters}
             setFilters={setFilters}
@@ -24,7 +26,8 @@ const ScheduleContainer: FC = () => {
             onPrevWeek={handlePrevWeek}
             onTodayWeek={handleTodayWeek}
          />
-      </>
+         <WeeklyGrid filters={filters} currWeek={currWeek} />
+      </Flex>
    )
 }
 
