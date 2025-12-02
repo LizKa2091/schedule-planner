@@ -7,3 +7,5 @@ export const dayMap: Record<string, number> = {
    saturday: 6,
    sunday: 7
 };
+
+export type DayName = keyof typeof dayMap;
